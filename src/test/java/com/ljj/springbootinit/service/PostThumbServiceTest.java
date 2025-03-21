@@ -1,4 +1,4 @@
-package com.yupi.springbootinit.service;
+package com.ljj.springbootinit.service;
 
 import javax.annotation.Resource;
 

@@ -1,0 +1,125 @@
+# 公共配置文件
+# @author <a href="https://github.com/180501/Ai_Bi">程序员ljj</a>
+# 
+spring:
+  application:
+    name: API-backend
+  # 默认 dev 环境
+  profiles:
+    active: dev
+  # 支持 swagger3
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  # session 配置
+  session:
+    # todo 取消注释开启分布式 session（须先配置 Redis）
+    timeout: 86400 #一天时间
+    store-type: redis #session存储类型，默认是cookie，这里修改为redis,表示从 redis 读写 session
+
+  # 数据库配置
+  # todo 需替换配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/api_manager
+    username: admin
+    password: 123456
+  # Redis 配置
+  # todo 需替换配置，然后取消注释
+  redis:
+    database: 1
+    host: localhost
+    port: 6379
+#    timeout: 5000
+#    password: 123456
+  # Elasticsearch 配置
+  # todo 需替换配置，然后取消注释
+#  elasticsearch:
+#    uris: http://localhost:9200
+#    username: root
+#    password: 123456
+  # 文件上传
+  servlet:
+    multipart:
+      # 大小限制
+      max-file-size: 10MB
+server:
+  port: 8101
+  servlet:
+    context-path: /api
+    # cookie 30 天过期
+    session:
+      cookie:
+        max-age: 2592000
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: isDelete # 全局逻辑删除的实体字段名
+      logic-delete-value: 1 # 逻辑已删除值（默认为 1）
+      logic-not-delete-value: 0 # 逻辑未删除值（默认为 0）
+# 微信相关
+wx:
+  # 微信公众平台
+  # todo 需替换配置
+  mp:
+    token: xxx
+    aesKey: xxx
+    appId: xxx
+    secret: xxx
+    config-storage:
+      http-client-type: HttpClient
+      key-prefix: wx
+      redis:
+        host: 127.0.0.1
+        port: 6379
+      type: Memory
+  # 微信开放平台
+  # todo 需替换配置
+  open:
+    appId: xxx
+    appSecret: xxx
+# 对象存储
+# todo 需替换配置
+cos:
+  client:
+    accessKey: xxx
+    secretKey: xxx
+    region: xxx
+    bucket: xxx
+# 接口文档配置
+knife4j:
+  enable: true
+  openapi:
+    title: "接口文档"
+    version: 1.0
+    group:
+      default:
+        api-rule: package
+        api-rule-resources:
+          - com.ljj.springbootinit.controller
+#接口钥匙
+yuapi:
+  client:
+    access-key: ljj
+    secret-key: abcdefg
+dubbo:
+  registry: #注册中心配置
+    address: nacos://${nacos.address:127.0.0.1}:8848
+    # This will enable application-level service discovery only (the recommended service discovery method for Dubbo3).
+    # For users upgrading from Dubbo2.x, please set the value to 'all' for smooth migration.
+#    register-mode: all #instance是默认值，表示只注册当前实例，不注册服务到注册中心。
+  protocol: #协议配置，用于暴露服务，能够让消费方进行调用
+    name: dubbo
+    port: 50051  # 启动时dubbo的端口号
+  application:
+    qos-enable: true  # 开启qos,qos可以统计dubbo接口的调用次数和响应时间
+    name: MainApplication
+    qos-port: 22222
+    qos-accept-foreign-ip: false
+    logger: slf4j
+
+
+
